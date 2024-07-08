@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.cdnfonts.com/css/latin-modern-math" rel="stylesheet">
+	      <link href="https://cdn.jsdelivr.net/npm/diagramatics@1.4/css/diagramatics.css" rel="stylesheet">
+        <script src='https://unpkg.com/simple-statistics@7.8.2/dist/simple-statistics.min.js'></script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+        <style>
+            
+            #page{
+                display: grid;
+                place-items: center; /* Center both horizontally and vertically */
+            }
+
+            #gamediv{
+                width: 600px;
+                min-width: 550px;
+            }
+
+            #container {  
+                display:  flex; 
+            }
+
+            .centered-input {
+                text-align: center;
+                margin: 1px; 
+                font-size: 20px;
+                font-weight: bold;
+                color: black;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div id="page">
+            <div id="svgdiv">
+                <svg id="mysvg" width=750 height=370></svg>
+            </div>
+            <div id="container">
+                <div id="controldiv"></div>
+                <div id="gamediv">
+                    Select distribution
+                    <input type="radio" id="h0" name="distribution" value="H0"  checked=true>
+                    <label for="h0">H0 (No target)</label>
+                    <input type="radio" id="ha" name="distribution" value="Ha">
+                    <label for="ha">Ha (Target present)</label>
+                    <button id="play" style="height: 30px; width: 150px;">Generate samples</button><br>
+                    Random samples
+                    <div id="tx_ramdom_samples"></div>
+                    Sample mean &emsp; Threshold
+                    <div id="tx_sample_mean"></div>
+                    <button id="reset" style="height: 30px; width: 50px;">Reset</button> 
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            import * as dg from 'https://cdn.jsdelivr.net/npm/diagramatics@1.4/dist/diagramatics.min.js';
+    
+            // you can change the domain and range by passing in `axes_options`
+            let mysvg = document.getElementById('mysvg');
+            let txtsvg = document.getElementById('txtsvg');
+            let controldiv = document.getElementById('controldiv');
+                
+            let handletex = (str, conf) => {
+                return MathJax.tex2svg(str, conf).innerHTML;
+            };
+    
+            let draw = (...diagrams) => {
+                dg.draw_to_svg_element(mysvg, dg.diagram_combine(...diagrams));
+                dg.handle_tex_in_svg(mysvg, handletex);
+            };
+        
+            let int = new dg.Interactive(controldiv, mysvg);
+
+            const tx_random_samples = document.getElementById('tx_ramdom_samples');
+            const tx_sample_mean = document.getElementById('tx_sample_mean');
+
+            for (let i = 0; i < 13; i++) {
+
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.id = `sample${i}`;
+                input.style.width = i!= 12 ? '100px' : '319px';
+                input.style.height = '30px';
+                input.className =  'centered-input';
+                if (i < 10)
+                    input.style.color = "blue";
+                else if(i==10)
+                    input.style.color = "green";
+                else
+                    input.style.color = "black";
+
+                input.readOnly = true;
+
+                if (i < 10)
+                    tx_random_samples.appendChild(input);
+                else
+                    tx_sample_mean.appendChild(input);
+                
+            }
+
+            function clearTexts(){
+                for (let i = 0; i < 13; i++) {
+                    try {
+                            let txt = document.getElementById(`sample${i}`);
+                            txt.value = "";
+                    } 
+                    finally{}
+                }
+            }
+   
+            int.draw_function = (inp) => {
+    
+                let threshold = inp['sld_threshold'];
+                let sample_size = inp['sld_samp_size'];
+                let distance = inp['sld_distance'];
+                let sample_mean = inp['sample_mean'];
+                let samples = inp['samples'];
+
+                let opt = {
+                    xrange : [-5, 5],
+                    yrange : [0, 0.8],
+                    bbox   : [dg.V2(0,0), dg.V2(300, 100)],
+                    headsize : 5,
+                    ticksize : 5,
+                    tick_label_offset : 2,
+                    n_sample : 200
+                }
+
+    
+                let transf = dg.axes_transform(opt); 
+    
+                let b = 5;
+                let c = -5;
+    
+
+                let mu1 = -distance/2;
+                let std1 = 1 / Math.sqrt(sample_size);
+                let mu2 = distance/2;
+                let std2 = 1 / Math.sqrt(sample_size);
+    
+                let f1 = x => 1/(Math.sqrt(2*Math.PI*std1)) * Math.exp(-((x-mu1) ** 2)/(2 * (std1 ** 2)));
+                let f2 = x => 1/(Math.sqrt(2*Math.PI*std1)) * Math.exp(-((x-mu2) ** 2)/(2 * (std1 ** 2)));
+
+                
+                let mean_cir = dg.circle(2.5).fill('green').position(transf(dg.V2(sample_mean, 0)));
+                let sample_circ = [];
+                for(let i=0; i<=samples.length; i++){
+                    sample_circ.push(dg.circle(1.75).fill('blue').position(transf(dg.V2(samples[i], 0))));
+                }
+    
+                let tx_ha = dg.text('$$H_{0}$$').fontsize(24).move_origin_text('center-center').position(transf(dg.V2(mu1, 0.32 + 0.15 * (1/std1))));
+                let tx_ho = dg.text('$$H_{a}$$').fontsize(24).move_origin_text('center-center').position(transf(dg.V2(mu2, 0.32 + 0.15 * (1/std2))));
+                let tx_info = dg.text('Probability of errors').fontsize(24).move_origin_text('center-center').position(transf(dg.V2(-2.3, -0.18)));
+    
+    
+                let tx_samples = dg.text('Generated samples').fontsize(12).position(dg.V2(5,5));
+                
+                let l = dg.line(transf(dg.V2(threshold, 0)), transf(dg.V2(threshold, 0.7)));
+    
+    
+                let r1 = dg.text('FP (false alarm) [type-1]').textfill('red').fontsize(20);
+                let r2 = dg.text('FN (miss) [type-2]').textfill('blue').fontsize(20);
+                let pF = Math.round((1-ss.cumulativeStdNormalProbability((threshold-mu1)/std1)) * 10000)/10000;
+                let pM = Math.round((ss.cumulativeStdNormalProbability((threshold-mu2)/std2)) * 10000)/10000;
+                let r3 = dg.text('$$P[x \\geq ' + threshold + '|H_{0}] = ' + pF + '$$').textfill('red').fontsize(20);
+                let r4 = dg.text('$$P[x \\leq ' + threshold + '|H_{a}] = ' + pM + '$$').textfill('blue').fontsize(20);
+                let table_obj = dg.table.table([[r1,r2],[r3,r4]], 8, undefined, undefined, 120).position(transf(dg.V2(-2, -0.3)));
+                table_obj = table_obj.apply_to_tagged_recursive([dg.TAG.TABLE_CELL, dg.TAG.ROW_+'0'], (d) => d.fill('#ddd'));
+    
+                let axes = dg.xycorneraxes(opt);
+    
+                let graph_f1 = dg.plotf(f1, opt).stroke('red').strokewidth(3);
+                let graph_f2 = dg.plotf(f2, opt).stroke('blue').strokewidth(3);
+    
+                let under_f1 = dg.under_curvef(f1, threshold, b, opt).fill('red').opacity(0.25).stroke('none');
+                let under_f2 = dg.under_curvef(f2, c, threshold, opt).fill('blue').opacity(0.25).stroke('none');
+    
+                draw(axes, l, under_f1, under_f2, graph_f1, graph_f2, tx_ha, tx_ho, table_obj, tx_info, ...sample_circ,  mean_cir);
+            }
+    
+            function format_threshold(name, value, prec){
+                return "Threshold: " + Math.round(value.toFixed(prec)*10)/10;
+            }
+    
+            function format_sample_size(name, value, prec){
+                return "Sample size: " + Math.round(value.toFixed(prec));
+            }
+    
+            function format_seperation(name, value, prec){
+                return "Seperation distance: " + Math.round(value.toFixed(prec)*10)/10;
+            }
+    
+            int.slider('sld_threshold', -5, 5, 0, undefined, undefined, format_threshold);
+            int.slider('sld_samp_size', 1, 10, 1, 1, undefined, format_sample_size);
+            int.slider('sld_distance', 0, 6, 2, undefined, undefined, format_seperation);
+            int.inp_variables['sample_mean'] = 0;
+            int.inp_variables['samples'] = Array(10).fill(0);
+
+            int.draw();
+    
+            let btn_play = document.getElementById('play');
+            let btn_reset = document.getElementById('reset');
+            let h0_option = document.getElementById('h0');
+            
+            btn_reset.onclick = () => {
+                int.set('sld_threshold', 0);
+                int.set('sld_samp_size', 1);
+                int.set('sld_distance', 2);
+                int.draw();
+                clearTexts();
+            }
+
+            btn_play.onclick = () => {
+
+                    function randomGaussian(mean, standardDeviation) {
+                    let u1 = Math.random();
+                    let u2 = Math.random();
+                    let z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+                    return z0 * standardDeviation + mean;
+                }
+                
+                const mean = h0_option.checked == true ? -int.get('sld_distance')/2 : int.get('sld_distance')/2;
+                const standardDeviation = 1/Math.sqrt(int.get('sld_samp_size'));
+
+                // Generate 10 random samples from a normal distribution
+                const samples = Array.from({ length: int.get('sld_samp_size') }, () => Math.round(randomGaussian(mean, standardDeviation) *100)/100);
+                const samplesMean = samples.reduce((acc, val) => acc + val, 0) / samples.length;
+
+                // Display the samples
+                clearTexts();
+                samples.forEach((value, index, array) => {
+                    let input = document.getElementById(`sample${index}`);
+                    input.value = value;
+                });
+                
+                document.getElementById('sample10').value = samplesMean >= int.get('sld_threshold') ? `${Math.round(samplesMean*100) / 100} >=` : `${Math.round(samplesMean*100) / 100} <`;
+                document.getElementById('sample11').value = int.get('sld_threshold');
+                document.getElementById('sample12').value = samplesMean >= int.get('sld_threshold') ? `Target detected! ${h0_option.checked == true ? '(False alarm)' : '(True Positive)'}` : ` No target! ${h0_option.checked == true ? '(True Negative)' : '(Miss)'}`;
+          
+                int.inp_variables['sample_mean'] = samplesMean;
+                int.inp_variables['samples'] = samples;
+                int.draw();
+            }
+    
+        </script>
+        
+    </body>
+
+</html>
