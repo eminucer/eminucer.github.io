@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en" class="h-100" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="generator" content="pandoc">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+    <!-- Bootstrap Icon -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" integrity="sha384-tViUnnbYAV00FLIhhi3v/dWt3Jxw4gZQcNoSCxCIFNJVCx7/D55/wXsrNIRANwdD" crossorigin="anonymous">
+    
+    <!-- Highlight.js Styles -->
+    <link rel="stylesheet" id="highlight-style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/stackoverflow-light.min.css">
+    
+    <!-- Custom Styles -->
+            <link rel="stylesheet" href="../../styles/docs.css">
+                <link rel="stylesheet" href="../../styles/styles.css">
+    
+    <!-- After header contents -->
+        <!-- Add favicon here -->
+        <!-- Add site-verifications here -->
+      </head>
+  <body class="d-flex flex-column h-100" data-bs-spy="scroll" data-bs-target="#TableOfContents">
+    <!-- Before body contents -->
+        <nav class="navbar bd-navbar navbar-expand-lg fixed-top">
+          <div class="container-xxl bd-gutter flex-wrap flex-lg-nowrap">
+            <!-- Brand -->
+            <a class="navbar-brand" href="../../index.html">Emin Ucer, Ph.D</a>
+            
+            <!-- Toggler -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <i class="bi bi-list fs-1"></i>
+            </button>
+            
+            <!-- Navbar Content -->
+            <div class="collapse navbar-collapse scrollable-navbar" id="navbarNav">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="../index.html">Blog</a>
+                </li>
+                <li class="nav-item"> 
+                  <a class="nav-link" href="https://scholar.google.com/citations?user=nqvOUTsAAAAJ&hl=en">Research</a>
+                </li>
+                <li class="nav-item"> 
+                  <a class="nav-link" href="../../tutorials/index.html">Tutorials</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../resume/index.html">Resume</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="../../favorites/index.html">Favorites</a>
+                </li>
+              </ul>
+
+              <!-- Social Media Icons -->
+                <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <a class="nav-link" href="mailto:eminucer@gmail.com" aria-label="Contact">
+                      <i class="bi bi-envelope"></i>
+                <span class="d-lg-none ms-2">Contact</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/eminucer" target="_blank" rel="noopener" aria-label="GitHub">
+                      <i class="bi bi-github"></i>
+                <span class="d-lg-none ms-2">GitHub</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://scholar.google.com/citations?user=nqvOUTsAAAAJ&hl=en" target="_blank" rel="noopener" aria-label="Google Scholar">
+                      <i class="bi bi-mortarboard-fill"></i>
+                <span class="d-lg-none ms-2">Google Scholar</span>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://www.linkedin.com/in/eeminucer/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                      <i class="bi bi-linkedin"></i>
+                <span class="d-lg-none ms-2">Linkedin</span>
+                    </a>
+                  </li>
+                </ul>
+              <!-- Divider for larger screens -->
+              <div class="vr d-none d-lg-flex mx-2 my-1 nav-line"></div>
+
+              <!-- Divider for smaller screens -->
+              <hr class="d-lg-none nav-line">
+              
+              <!-- Theme Dropdown -->
+              <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                  <button class="btn btn-link nav-link dropdown-toggle" type="button" id="themeDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-circle-half"></i>
+        	          <span class="d-lg-none ms-2">Toggle theme</span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="themeDropdown">
+                    <li>
+                      <a class="dropdown-item align-items-center" data-theme="light">
+                        <i class="bi bi-sun-fill me-2 opacity-50"></i> Light
+                      </a>
+                    </li> 
+                    <li>
+                      <a class="dropdown-item align-items-center" data-theme="dark">
+                        <i class="bi bi-moon-stars-fill me-2 opacity-50"></i> Dark
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        
+  <div class="container-xxl custom-wide-container bd-gutter bd-layout mb-5">
+      <main class="bd-main order-1">
+        <!-- Date -->
+        <div>
+                    <h2 class="bd-intro ps-lg-2 mt-4 mb-2" id="title">Jinja2
+and Pandoc</h2>
+          
+                    <h6 class="bd-intro ps-lg-2 mt-2">Published: 2025-03-17</h6>
+                  </div>
+                      <!-- Table of Contents -->
+            <div class="bd-toc mt-lg-0 mb-lg-5 mt-4 mb-5 px-sm-1 text-body-secondary">
+                <strong class="d-md-block d-none h6 my-2 ms-3">On this page</strong>
+                <hr class="d-md-block d-none my-2 ms-3">
+                <div class="collapse bd-toc-collapse" id="tocContents">
+                <nav id="TableOfContents">
+                    <ul>
+                    <li><a href="#why-jinja2-and-pandoc"
+                    id="toc-why-jinja2-and-pandoc">Why Jinja2 and
+                    Pandoc</a></li>
+                    </ul>
+                </nav>
+                </div>
+            </div>
+                  <!-- Main Content -->
+        <div class="bd-content ps-lg-2">
+          <!-- variable is a placeholder that Pandoc replaces with the actual content from your input file (like Markdown or LaTeX) when generating the final HTML output. -->
+          <h2 id="why-jinja2-and-pandoc">Why Jinja2 and Pandoc</h2>
+<p>I also had no idea about these two tools until I started working on
+my little own personal blog project. All I wanted was to automate the
+process to create static web pages based on a given template, and host
+them as GitHub pages. Normally, you can easily create templates and
+render them on the server using backend frameworks in response to user
+requests. But this is already too complex for a simple personal blog—let
+alone the fact that it requires a dedicated server, backend management,
+and paid hosting and domain services.</p>
+<p>If only there was a light-weight tool that can do the server site
+rendering without having to run an actual server and most of its
+services which are totally uncessary for this task. Fortunatelly, such a
+tool already exists and it is <strong>Jinja2</strong>. It simply allows
+you to use placeholders in a file and fill them in later based on your
+logic. You can implement this logic in Python and pass the resulting
+values to the placeholders using the <code>Jinja2</code> package. Below
+is a simple example to get you started.</p>
+<h3 id="jinja2-template">Jinja2 Template</h3>
+<ul>
+<li>Uses <code>{% ... %}</code> for logic (if, for, etc.)</li>
+<li>Uses <code>{{ ... }}</code> for variables</li>
+</ul>
+<p><strong>Example</strong></p>
+<pre><code>from jinja2 import Template
+
+# Define the template
+template = Template(&quot;&quot;&quot;
+{% if title %}
+  &lt;h1&gt;{{ title }}&lt;/h1&gt;
+{% endif %}
+&lt;ul&gt;
+{% for post in posts %}
+  &lt;li&gt;{{ post.title }}&lt;/li&gt;
+{% endfor %}
+&lt;/ul&gt;
+&quot;&quot;&quot;)
+
+# Variables to inject into the template
+vars = {
+    &quot;title&quot;: &quot;Jinja2 and Pandoc&quot;,
+    &quot;posts&quot;: [
+        {&quot;title&quot;: &quot;Understanding Jinja2&quot;},
+        {&quot;title&quot;: &quot;Markdown to HTML with Pandoc&quot;},
+        {&quot;title&quot;: &quot;Template Engines Overview&quot;}
+    ]
+}
+
+# Render the template
+rendered = template.render(vars)</code></pre>
+<p>You might be wondering, “Why do I need <strong>Pandoc</strong> then?”
+While Jinja2 is great for filling in templates, it doesn’t handle
+converting Markdown to other formats like HTML or PDF. That’s where
+Pandoc comes in. Pandoc is a powerful document converter that can
+transform files between many formats, including Markdown
+(<code>.md</code>), HTML (<code>.html</code>), PDF (<code>.pdf</code>),
+and LaTeX (<code>.tex</code>).</p>
+<p>Even after using Jinja2 to fill in your placeholders, you would still
+need to write additional code to convert your Markdown files to HTML or
+other formats. This process becomes even more complex if your content
+includes LaTeX syntax, since you’d need to integrate a LaTeX compiler to
+render those parts correctly. Pandoc simplifies all of this by handling
+the conversion for you. It also supports its own templating system
+(though less flexible than Jinja2), allowing you to customize the output
+format with CSS and JavaScript.</p>
+<p>Pandoc uses a slightly different syntex for templating as illustrated
+below.</p>
+<h3 id="pandoc-template">Pandoc Template</h3>
+<ul>
+<li>Variables use <code>$...$</code></li>
+<li>Conditionals use <code>$if(...)$ ... $endif$</code></li>
+<li>Loops use <code>$for(...)$ ... $endfor$</code></li>
+</ul>
+<p><strong>Example</strong></p>
+<pre><code>$if(title)$
+  &lt;h1&gt;$title$&lt;/h1&gt;
+$endif$
+$for(posts)$
+  &lt;li&gt;$posts.title$&lt;/li&gt;
+$endfor$</code></pre> 
+        </div>
+      </main>
+    </div>
+    
+    <!-- After body contents -->
+        <!-- Add comment hosting service here (optional) -->
+
+        <!-- Footer -->
+        <footer class="footer bd-footer bg-body-tertiary mt-auto py-md-3 py-4">
+          <div class="container text-body-secondary py-md-3 py-4" align="center">
+            <!-- Update licences -->
+            Content is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>
+            &nbsp;|&nbsp;
+            Sourcecode is licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" rel="noopener">GPL-3.0</a>
+            <br />
+            <!-- Please keep the following line -->
+            Built by <a href="https://github.com/ashki23/pandoc-bootstrap" target="_blank" rel="noopener">pandoc-bootstrap</a> theme
+            <br />
+            <!-- Update copyright -->
+            Copyright, Emin Ucer
+          </div>
+        </footer>
+
+        <!-- Add global site tag (gtag.js) and site analytics here (optional) -->
+        
+    <!-- Bootstrap Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/highlight.min.js" integrity="sha512-6yoqbrcLAHDWAdQmiRlHG4+m0g/CT/V9AGyxabG8j7Jk8j3r3K6due7oqpiRMZqcYe9WM2gPcaNNxnl2ux+3tA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+        <!-- Mathjax -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        
+    <!-- Custom Scripts -->
+         <script src="../../scripts/script.js"></script>
+      </body>
+</html>
