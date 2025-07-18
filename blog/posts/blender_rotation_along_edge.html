@@ -116,10 +116,10 @@
       <main class="bd-main order-1">
         <!-- Date -->
         <div>
-                    <h1 class="bd-intro ps-lg-2 mt-4 mb-2" id="title">Jinja2
-and Pandoc</h1>
+                    <h1 class="bd-intro ps-lg-2 mt-4 mb-2" id="title">How
+to rotate an object along an edge in Blender</h1>
           
-                    <h5 class="bd-intro ps-lg-2 mt-2">Published: 2025-03-17</h5>
+                    <h5 class="bd-intro ps-lg-2 mt-2">Published: 2025-07-15</h5>
                   </div>
                       <!-- Table of Contents -->
             <div class="bd-toc mt-lg-0 mb-lg-5 mt-4 mb-5 px-sm-1 text-body-secondary">
@@ -128,9 +128,16 @@ and Pandoc</h1>
                 <div class="collapse bd-toc-collapse" id="tocContents">
                 <nav id="TableOfContents">
                     <ul>
-                    <li><a href="#why-jinja2-and-pandoc"
-                    id="toc-why-jinja2-and-pandoc">Why Jinja2 and
-                    Pandoc</a></li>
+                    <li><a
+                    href="#method-1-rotation-by-changing-the-coordinate-frame"
+                    id="toc-method-1-rotation-by-changing-the-coordinate-frame">Method-1:
+                    Rotation by changing the coordinate frame</a></li>
+                    <li><a href="#method-2-via-an-empty-parent-element"
+                    id="toc-method-2-via-an-empty-parent-element">Method-2:
+                    Via an empty parent element</a></li>
+                    <li><a href="#method-3-by-changing-the-local-axis"
+                    id="toc-method-3-by-changing-the-local-axis">Method-3:
+                    By changing the local axis</a></li>
                     </ul>
                 </nav>
                 </div>
@@ -138,85 +145,118 @@ and Pandoc</h1>
                   <!-- Main Content -->
         <div class="bd-content ps-lg-2">
           <!-- variable is a placeholder that Pandoc replaces with the actual content from your input file (like Markdown or LaTeX) when generating the final HTML output. -->
-          <h2 id="why-jinja2-and-pandoc">Why Jinja2 and Pandoc</h2>
-<p>I also had no idea about these two tools until I started working on
-my little own personal blog project. All I wanted was to automate the
-process to create static web pages based on a given template, and host
-them as GitHub pages. Normally, you can easily create templates and
-render them on the server using backend frameworks in response to user
-requests. But this is already too complex for a simple personal blog—let
-alone the fact that it requires a dedicated server, backend management,
-and paid hosting and domain services.</p>
-<p>If only there was a light-weight tool that can do the server site
-rendering without having to run an actual server and most of its
-services which are totally uncessary for this task. Fortunatelly, such a
-tool already exists and it is <strong>Jinja2</strong>. It simply allows
-you to use placeholders in a file and fill them in later based on your
-logic. You can implement this logic in Python and pass the resulting
-values to the placeholders using the <code>Jinja2</code> package. Below
-is a simple example to get you started.</p>
-<h3 id="jinja2-template">Jinja2 Template</h3>
-<ul>
-<li>Uses <code>{% ... %}</code> for logic (if, for, etc.)</li>
-<li>Uses <code>{{ ... }}</code> for variables</li>
-</ul>
-<p><strong>Example</strong></p>
-<pre><code>from jinja2 import Template
-
-# Define the template
-template = Template(&quot;&quot;&quot;
-{% if title %}
-  &lt;h1&gt;{{ title }}&lt;/h1&gt;
-{% endif %}
-&lt;ul&gt;
-{% for post in posts %}
-  &lt;li&gt;{{ post.title }}&lt;/li&gt;
-{% endfor %}
-&lt;/ul&gt;
-&quot;&quot;&quot;)
-
-# Variables to inject into the template
-vars = {
-    &quot;title&quot;: &quot;Jinja2 and Pandoc&quot;,
-    &quot;posts&quot;: [
-        {&quot;title&quot;: &quot;Understanding Jinja2&quot;},
-        {&quot;title&quot;: &quot;Markdown to HTML with Pandoc&quot;},
-        {&quot;title&quot;: &quot;Template Engines Overview&quot;}
-    ]
-}
-
-# Render the template
-rendered = template.render(vars)</code></pre>
-<p>You might be wondering, “Why do I need <strong>Pandoc</strong> then?”
-While Jinja2 is great for filling in templates, it doesn’t handle
-converting Markdown to other formats like HTML or PDF. That’s where
-Pandoc comes in. Pandoc is a powerful document converter that can
-transform files between many formats, including Markdown
-(<code>.md</code>), HTML (<code>.html</code>), PDF (<code>.pdf</code>),
-and LaTeX (<code>.tex</code>).</p>
-<p>Even after using Jinja2 to fill in your placeholders, you would still
-need to write additional code to convert your Markdown files to HTML or
-other formats. This process becomes even more complex if your content
-includes LaTeX syntax, since you’d need to integrate a LaTeX compiler to
-render those parts correctly. Pandoc simplifies all of this by handling
-the conversion for you. It also supports its own templating system
-(though less flexible than Jinja2), allowing you to customize the output
-format with CSS and JavaScript.</p>
-<p>Pandoc uses a slightly different syntex for templating as illustrated
-below.</p>
-<h3 id="pandoc-template">Pandoc Template</h3>
-<ul>
-<li>Variables use <code>$...$</code></li>
-<li>Conditionals use <code>$if(...)$ ... $endif$</code></li>
-<li>Loops use <code>$for(...)$ ... $endfor$</code></li>
-</ul>
-<p><strong>Example</strong></p>
-<pre><code>$if(title)$
-  &lt;h1&gt;$title$&lt;/h1&gt;
-$endif$
-$for(posts)$
-  &lt;li&gt;$posts.title$&lt;/li&gt;
-$endfor$</code></pre> 
+          <p>Anyone doing serious 3D design in Blender will eventually
+encounter the need to rotate objects around an arbitrary axis. In my
+case, it happened while trying to accurately animate the left and right
+flaps of an aircraft model. The default rotation axis along the Y
+direction passed through the center of the flap, causing it to detach
+from the aircraft during rotation, as shown below. Naturally, this
+resulted in unrealistic and physically inaccurate flap movement, so I
+had to adjust the rotation axis.</p>
+<p><img src="../../images/2025-07-15_detached_flap.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<h2 id="method-1-rotation-by-changing-the-coordinate-frame">Method-1:
+Rotation by changing the coordinate frame</h2>
+<p>This method allows you to define an arbitary coordinate frame in
+Blender, and rotate the object with respect to it. Note that we’re not
+changing the object’s local axes (which is covered in Model-3), so this
+is only useful if you just need to rotate the object in Blender. Follow
+the steps below.</p>
+<ol type="1">
+<li>Switch to the <code>Edit Mode (Tab)</code> and select ( hold down
+<code>Cmd (Mac)</code> or <code>Ctrl (Windows)</code> and click) the
+vertices of the object that will present your new axis.</li>
+</ol>
+<p><img src="../../images/2025-07-15_selecting_two_vertices.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="2" type="1">
+<li>Go to the orientation menu and press <code>+</code> to create a new
+orientation based on your selection.</li>
+</ol>
+<p><img src="../../images/2025-07-15_creating_orientation.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="3" type="1">
+<li>Set the 3D cursor to this selection by either using the shortcut
+(<code>Shift + Right Click</code>) or the from the left menu.</li>
+</ol>
+<p><img src="../../images/2025-07-15_setting_3D_cursor.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="4" type="1">
+<li>Set the transformer pivot to the 3D cursor.</li>
+</ol>
+<p><img src="../../images/2025-07-15_transformer_pivot_point.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="5" type="1">
+<li>Finally, go back the <code>Object Mode</code> and select the object.
+Now you can rotate the object along this edge axis using X, Y, Z keys
+when rotating.</li>
+</ol>
+<p><img src="../../images/2025-07-15_flap_rotating_along_edge.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<h2 id="method-2-via-an-empty-parent-element">Method-2: Via an empty
+parent element</h2>
+<p>The <code>Empty</code> object in Blender is a powerful tool that
+allows you to group and manage multiple objects, making it easy to
+modify them all at once. The idea here is to create an empty
+<code>Plane Axes</code> and parent the object you’d like to rorate to
+it. You can position the plane axes so that one axis aligns with the
+edge of the object you want to rotate. Empty objects are not rendered,
+but when you move the parent element along its aligned axis, the
+attached object rotates accordingly. Here are the steps to achive
+this.</p>
+<ol type="1">
+<li>Add an Empty Plane Axes.</li>
+</ol>
+<p><img src="../../images/2025-07-17_adding_plain_axes.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="2" type="1">
+<li>Align one of the axes of the empty object with the edge of the
+original object you want to rotate. You can select the empty object and
+press <code>G</code> to move or <code>R</code> to rotate it freely.
+(While holding <code>G</code> or <code>R</code>, press <code>X</code>,
+<code>Y</code>, or <code>Z</code> to constrain the movement or rotation
+along those axes.) Use the viewport in the top-left corner to view the
+empty object in the <code>XY</code>, <code>YZ</code>, and
+<code>XZ</code> planes for more accurate placement.</li>
+</ol>
+<p><img src="../../images/2025-07-16_aligning_empty_axis.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="3" type="1">
+<li>In the <code>Object Mode</code>, first select the object, then hold
+down <code>Shift</code> and select the empty object. Then press
+<code>Cmd + P</code>. From the menu, click object.</li>
+</ol>
+<p><img src="../../images/2025-07-17_parenting_to_empty.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="4" type="1">
+<li>You should see on the right that the object is nested under its
+parent empty element.</li>
+</ol>
+<p><img src="../../images/2025-07-17_object_under_parent.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="5" type="1">
+<li>Now, switch to the <code>Local</code> orientation.</li>
+</ol>
+<p><img src="../../images/2025-07-17_setting_to_local.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="6" type="1">
+<li>Rotate the parent empty element along the desired axis. You’ll see
+that the object will rotate along with it too.</li>
+</ol>
+<p><img src="../../images/2025-07-17_local_rotation.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<h2 id="method-3-by-changing-the-local-axis">Method-3: By changing the
+local axis</h2>
+<p>This method is the most direct and intuitive way to manipulate the
+axes of orientation of an object. Each object has a origin point that
+has local axes. You can see an object’s origin (<code>orange</code>)
+point when you select it in the object mode. You can also see the local
+axes of the origin by enabling <code>Affect Only Origings</code> under
+<code>Options</code> as shown below.</p>
+<p><img src="../../images/2025-07-17_axis_of_origin.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<p><img src="../../images/2025-07-17_showing_origin_axis.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol type="1">
+<li>With this option enabled, you can move and rotate the origins of the
+selected objects. Move and rotate the origin using <code>G</code> and
+<code>R</code> keys until one of its axes aligns with the edge around
+which you want to rotate the object.</li>
+</ol>
+<p><img src="../../images/2025-07-17_aligning_local_origin.png" style="display: block; margin: 0 auto;" width="600"/></p>
+<ol start="2" type="1">
+<li><p>Disable the <code>Affect Only Origins</code> option and switch to
+the <code>Local</code> orientation.</p></li>
+<li><p>Now you can move your object along the desired edge by simply
+using its new modified origin.</p></li>
+</ol>
+<p><img src="../../images/2025-07-17_rotate_3_method.png" style="display: block; margin: 0 auto;" width="600"/></p> 
         </div>
       </main>
     </div>
